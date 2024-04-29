@@ -23,3 +23,28 @@ def atualizar_conta(conta, nova_conta):
   conta.saldo = nova_conta.saldo
   db.session.commit()
   return conta
+
+def alterar_saldo_conta(id_conta, transacao, tipo_operacao, valor_antigo=None):
+    # 1: Cadastro
+    # 2: Update
+    # 3: Delete
+    conta = buscar_conta(id_conta)
+
+    if tipo_operacao == 1:
+      if transacao.tipo == "1":
+          conta.saldo += transacao.valor
+      else:
+          conta.saldo -= transacao.valor
+    elif tipo_operacao == 2:
+      if transacao.tipo == '1':
+          conta.saldo -= valor_antigo
+          conta.saldo += transacao.valor
+      else:
+          conta.saldo += valor_antigo
+          conta.saldo -= transacao.valor
+    else:
+      if transacao.tipo.value == 1:
+        conta.saldo -= transacao.valor
+      else:
+        conta.saldo += transacao.valor
+    db.session.commit()
